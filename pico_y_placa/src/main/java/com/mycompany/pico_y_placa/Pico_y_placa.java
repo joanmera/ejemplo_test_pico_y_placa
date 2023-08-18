@@ -117,7 +117,7 @@ public class Pico_y_placa {
                           }
                           
                         
-                          /
+                          
                      } 
                      catch(Exception e){
                          System.out.println("Error: ingrese una placa valida");
