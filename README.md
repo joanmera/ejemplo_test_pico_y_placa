@@ -1,6 +1,11 @@
 ejemplo_test_pico_y_placa
 this program helps users with pico y placa regulations of Quito-Ecuador
 
+------------------------------------------------------------------------
+If you have issues with the code, try with the .rar file
+------------------------------------------------------------------------
+
+
 I controlled lot of regulations about the placa number with cars and motorcycles
 
 first---
