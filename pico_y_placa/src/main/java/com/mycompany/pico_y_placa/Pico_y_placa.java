@@ -12,10 +12,12 @@ public class Pico_y_placa {
 
    
     public static void main(String[] args) {
-        
+        //this checks will helps us with different validations
         boolean check2=false, check3=false,check4=false ;
+       
         int type=0;
         boolean check=false;
+       //y=years m=months d=days     
         int y=0,m=0,d=0,minutes=0,hours=0,allmin=0;
 
         Scanner src = new Scanner (System.in);
@@ -35,7 +37,7 @@ public class Pico_y_placa {
                 System.out.println("3-salir");
                 System.out.println("-------------------------------------");
                 type=src.nextInt();
-                check=true;
+                check=true;            
                      if(type<1 || type>3){
                      System.out.println("opcion no valida, porfavor selecciona entre (1 o 2)");
                      check=false;
@@ -60,25 +62,31 @@ public class Pico_y_placa {
                           System.out.println(); 
                           System.out.println("Escriba la placa de su auto en el siguiente formato AAA-0000");
                           pl.setplaca(src.next());
+                        //this line allows the user type in capital letters or not
                           pl.setplaca(pl.getplaca().toUpperCase());
+                        //lplaca means "letters placa" -->AAA
                           String lplaca=pl.getplaca().substring(1, 3);
                           //nplaca means "number placa" -->0000/000
                           String nplaca=pl.getplaca().substring(4, pl.getplaca().length());
                           
                           
-                          
+                          //restriction if the String is longer or shorter than expected
                           if(pl.getplaca().length()>8 || pl.getplaca().length()<7){
                               System.out.println("Error: placa muy larga o demasiado corta");
                               check2=false;
                               System.out.println();
+                          //restriction if "AAA" are not letters
+                             //I used "[^a-zA-Z]*$", this sing "^" is used inside the brakects to get false as answer
                           }else if(lplaca.matches("[^a-zA-Z]*$")){
                               System.out.println("Error: los tres primeros espacios deben ser letras");
                               check2=false;
                               System.out.println();
+                             //restriction if "-" is not inside the Sring
                           }else if(pl.getplaca().charAt(3)!='-'){
                               System.out.println("Error: debe ingresar la placa con el formato AAA-0000");
                               check2=false;
                               System.out.println();
+                         //restriction if "0000" are not numbers 
                           }else if(!(nplaca.chars().allMatch(Character::isDigit))){
                               System.out.println("Error: los ultimos cuatro o tres espacios deben ser numeros");
                               check2=false;
@@ -86,7 +94,7 @@ public class Pico_y_placa {
                           }
                           
                           
-                          
+                          //show String and validation
                           else{
                               System.out.println();
                               System.out.println("Placa ingresada: "+pl.getplaca());
@@ -109,7 +117,7 @@ public class Pico_y_placa {
                           }
                           
                         
-                          
+                          /
                      } 
                      catch(Exception e){
                          System.out.println("Error: ingrese una placa valida");
@@ -118,7 +126,7 @@ public class Pico_y_placa {
                      }
                  }while(!check2); 
               
-                do{
+                do{   //upload date
                     try{
                         System.out.println("-------------------");
                         System.out.println("Ingrese la fecha");
@@ -127,21 +135,21 @@ public class Pico_y_placa {
                         System.out.println("Ingrese el año");
                         y=src.nextInt();
                         System.out.println("Ingrese el mes");
-                        m=src.nextInt();
+                        m=src.nextInt();   //restriction
                         if(m<1 || m>12){
                             System.out.println("Error: mes invalido");
                              check3=false;
                              System.out.println();
                         }
                         System.out.println("Ingrese el dia");
-                        d=src.nextInt();
+                        d=src.nextInt(); //restriction
                         if(d<1 || d>31){
                             System.out.println("Error: dia invalido");
                              check3=false;
                              System.out.println();
                         }
 
-                        else{
+                        else{    //the last check with "true" always help us to get out of the bucle
                             check3=true;
                         }
                     }
@@ -152,10 +160,10 @@ public class Pico_y_placa {
                     }
                 }while(!check3);
                  
-                 do{
-                            try {
+                 do{                        //upload time
+                            try {         //ONLY HOURS IN 24H FORMAT
                                System.out.print("Ingresa unicamente la hora (formato 24 horas): ");
-                                hours = src.nextInt();
+                                hours = src.nextInt();  //restriction
                                 if (hours<0 || hours > 23 ) {
                                     System.out.println("Error: hora invalida");
                                     check4=false;
@@ -163,7 +171,7 @@ public class Pico_y_placa {
                                 }
                                 
                                System.out.print("Ingresa los minutos: ");
-                               minutes = src.nextInt();
+                               minutes = src.nextInt();  //restriction
 
                                if (minutes < 0 || minutes > 59) {
                                     System.out.println("Error: hora invalida");
@@ -171,7 +179,7 @@ public class Pico_y_placa {
                                     System.out.println();
                                     
                                 } else {
-                                   System.out.println(); 
+                                   System.out.println();  //restriction
                                    System.out.println("Hora ingresada: " + hours + ":" + minutes);
                                     check4=true;
                                     allmin=hours*60+minutes;
@@ -185,13 +193,14 @@ public class Pico_y_placa {
                          
                  }while(!check4);
                  
-                 
+                 //with java libaries we can get the date according to the user
               LocalDate Date = LocalDate.of(y,m,d);
-              DayOfWeek diaDeLaSemana = Date.getDayOfWeek();
+              DayOfWeek diaDeLaSemana = Date.getDayOfWeek(); 
+                  //we create the String with the name of the day but with LA Spanish
               String nombreDia = diaDeLaSemana.getDisplayName(TextStyle.FULL, new Locale("es", "LA"));
               
               
-              
+              //validation of the day, placa and time
               if(diaDeLaSemana==DayOfWeek.MONDAY ){
                   if(pl.getplaca().charAt(pl.getplaca().length()-1)=='1' || pl.getplaca().charAt(pl.getplaca().length()-1)=='2'){
                       if(allmin>=7*60 && allmin<=9*60+30 || allmin>=16*60 && allmin<=19*60+30){
@@ -278,7 +287,7 @@ public class Pico_y_placa {
               
               
               
-              
+                       //same as before with case two
               case 2:
                     do{
                      try{
@@ -286,23 +295,24 @@ public class Pico_y_placa {
                           System.out.println("Escriba la placa de su motocicleta en el siguiente formato AA-000A");
                           pl2.setplaca(src.next());
                           pl2.setplaca(pl2.getplaca().toUpperCase());
+                        //String of "AA"
                           String lplaca=pl2.getplaca().substring(1, 2);
-                          //nplaca means "number placa" -->0000/000
+                          //String of "000"
                           String nplaca=pl2.getplaca().substring(4, 6);
 
-                          if(pl2.getplaca().length()>7 || pl2.getplaca().length()<7){
+                          if(pl2.getplaca().length()>7 || pl2.getplaca().length()<7){ //restriction of size
                               System.out.println("Error: placa muy larga o demasiado corta");
                               check2=false;
                               System.out.println();
-                          }else if(lplaca.matches("[^a-zA-Z]*$")){
+                          }else if(lplaca.matches("[^a-zA-Z]*$")){ //restriction of first letters
                               System.out.println("Error: los dos primeros espacios deben ser letras");
                               check2=false;
                               System.out.println();
-                          }else if(pl2.getplaca().charAt(2)!='-'){
+                          }else if(pl2.getplaca().charAt(2)!='-'){ //restriction of "-" inside String
                               System.out.println("Error: debe ingresar la placa con el formato AA-000A");
                               check2=false;
                               System.out.println();
-                          }else if(!(nplaca.chars().allMatch(Character::isDigit))){
+                          }else if(!(nplaca.chars().allMatch(Character::isDigit))){ //restriction of numbers after "-"
                               System.out.println("Error: deben existir almenos tres numeros despues del guion");
                               check2=false;
                               System.out.println();
@@ -415,6 +425,7 @@ public class Pico_y_placa {
               
               
               if(diaDeLaSemana2==DayOfWeek.MONDAY ){
+                 //we need to use .length()-2 because the last digit in case of motorcycles is a letter and we need to analyze numbers
                   if(pl2.getplaca().charAt(pl2.getplaca().length()-2)=='1' || pl2.getplaca().charAt(pl2.getplaca().length()-2)=='2'){
                       if(allmin>=7*60 && allmin<=9*60+30 || allmin>=16*60 && allmin<=19*60+30){
                           System.out.println();
@@ -498,7 +509,7 @@ public class Pico_y_placa {
                   
               break;    
              
-              case 3:
+              case 3: //exit of program
                   System.out.println("Saliendo del programa...");
               break;
               
@@ -515,7 +526,7 @@ public class Pico_y_placa {
         
     }
   
-   
+   //funtions to save lines 
    public static void donotallow(){
        System.out.println("su pico y plata empieza de:");
        System.out.println("7:00 am - 9:30 am:");
